@@ -1,0 +1,31 @@
+<!--pages/citylist/index.wxml-->
+<scroll-view scroll-y enable-back-to-top scroll-into-view="{{cityID}}">
+  <view class='city-list'>
+    <view wx:if="{{hasLocation}}" class='city-list-item'>{{loacteCity}}
+      <text class='locatetype'>GPS定位</text>
+    </view>
+    <button wx:else open-type='openSetting'>获取位置授权</button>
+  </view>
+  <block wx:if="{{historyCity.length}}">
+    <view class='city-index' id="city-to-history">历史访问城市</view>
+    <view class='city-hot' bindtap='onSelectCity'>
+      <view class='city-hot-item' wx:for="{{historyCity}}" data-name="{{item}}">{{item}}</view>
+    </view>
+  </block>
+  <view class='city-index' id="city-to-hot">热门城市</view>
+  <view class='city-hot' bindtap='onSelectCity'>
+    <view class='city-hot-item' wx:for="{{['北京','上海','成都','重庆','广州','杭州','南京','深圳','西安']}}" data-name="{{item}}">{{item}}</view>
+  </view>
+  <view wx:for='{{cityData}}' wx:key="letter" bindtap='onSelectCity'>
+    <view class='city-index' id="city-to-letter-{{item.letter}}">{{item.letter}}</view>
+    <view class='city-list'>
+      <view class='city-list-item' wx:for="{{item.citys}}" data-name="{{item}}">{{item}}</view>
+    </view>
+  </view>
+  <view class='city-index-list'>
+    <view class='city-index-list-inner' bind:touchstart="onLetterTap" catch:touchmove="onLetterMove">
+      <view data-type="cityCheck" id="hot" class="selectItem">热门</view>
+      <view wx:key="letter" wx:for='{{cityData}}' data-type="cityCheck" id="letter-{{item.letter}}" class="selectItem">{{item.letter}}</view>
+    </view>
+  </view>
+</scroll-view>
